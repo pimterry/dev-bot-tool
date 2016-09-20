@@ -12,11 +12,13 @@ export interface CliArguments {
 }
 
 export enum CliAction {
-    AwsDeploy
+    AwsDeploy,
+    RunOnce
 }
 
 const doc = `
 Usage:
+    dev-bot run-once <entrypoint> [--env=deploy.env]
     dev-bot aws-deploy <name> <entrypoint> [--region=<region>] [--root=<root_directory>]
                                            [--role=<role_name>] [--env=deploy.env]
     dev-bot -h | --help
@@ -27,7 +29,7 @@ Options:
     --region <region>         The AWS region to use [default: eu-west-1]
     --root <root_directory>   The bot's root directory [default: ./]
     --role <role_name>        The AWS role to use [default: create one automatically]
-    --env <env-vars-file>     A dotenv file, containing environmental variables to inject at runtime
+    --env <env-vars-file>     A dotenv file, containing environmental variables to include at runtime
 `;
 
 export function parseArgs(argv: string[]): CliArguments {
@@ -37,8 +39,12 @@ export function parseArgs(argv: string[]): CliArguments {
         exit: false
     });
 
+    let action = result["aws-deploy"] ? CliAction.AwsDeploy : 
+                 result["run-once"] ? CliAction.RunOnce :
+                 null;
+
     return {
-        action: result["aws-deploy"] ? CliAction.AwsDeploy : null,
+        action: action,
         name: result["<name>"],
         entrypoint: result["<entrypoint>"],
 

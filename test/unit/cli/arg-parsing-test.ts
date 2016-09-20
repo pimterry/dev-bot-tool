@@ -38,6 +38,10 @@ describe("Arg parsing", () => {
             it("has the role defaulting to null", () => {
                 expect(result.role).to.equal(null);
             });
+
+            it("has the env defaulting to null", () => {
+                expect(result.env).to.equal(null);
+            });
         });
 
         describe("when providing optional arguments", () => {
@@ -74,6 +78,42 @@ describe("Arg parsing", () => {
 
             it("gets the env file", () => {
                 expect(result.env).to.equal("deploy-vars.env");
+            });
+        });
+    });
+
+    describe("for 'run-once'", () => {
+        describe("with only the required arguments", () => {
+            let result: CliArguments;
+            beforeEach(() => result = parseArgs(args(["run-once", "bot.js"])));
+
+            it("sets the action to 'run once'", () => {
+                expect(result.action).to.equal(CliAction.RunOnce);
+            });
+
+            it("sets the entrypoint", () => {
+                expect(result.entrypoint).to.equal("bot.js");
+            });
+
+            it("has the env defaulting to null", () => {
+                expect(result.env).to.equal(null);
+            });
+        });
+
+        describe("with every argument included", () => {
+            let result: CliArguments;
+            beforeEach(() => result = parseArgs(args(["run-once", "bot.js", "--env", "deploy.env"])));
+
+            it("sets the action to 'run once'", () => {
+                expect(result.action).to.equal(CliAction.RunOnce);
+            });
+
+            it("sets the entrypoint", () => {
+                expect(result.entrypoint).to.equal("bot.js");
+            });
+
+            it("gets the env file", () => {
+                expect(result.env).to.equal("deploy.env");
             });
         });
     });

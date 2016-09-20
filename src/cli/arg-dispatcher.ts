@@ -7,7 +7,7 @@ const readFile = promisify<string, string, string>(fs.readFile);
 import { CliArguments, CliAction } from "./arg-parsing";
 import { AwsCredentials } from "../aws/aws";
 
-import { deploy } from "./commands";
+import { deploy, runOnce } from "./commands";
 
 export async function runCommand(args: CliArguments): Promise<void> {
     let credentials: AwsCredentials = {
@@ -25,7 +25,14 @@ export async function runCommand(args: CliArguments): Promise<void> {
             args.region,
             credentials,
             args.role,
-            args.env ? await buildEnv(args.env) : {}
+            await buildEnv(args.env)
+        );
+    } else if (args.action === CliAction.RunOnce) {
+        console.log(`Running ${args.entrypoint}`);
+
+        return runOnce(
+            args.entrypoint,
+            await buildEnv(args.env)
         );
     } else {
         throw new Error("Unrecognized CLI action");
@@ -33,5 +40,6 @@ export async function runCommand(args: CliArguments): Promise<void> {
 }
 
 async function buildEnv(envFile: string): Promise<{ [id: string]: string }> {
+    if (!envFile) return <{ [id: string]: string }> {};
     return dotenv.parse(await readFile(envFile, "utf8"));
 }
