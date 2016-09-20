@@ -14,8 +14,6 @@ First up, get a bot ready, and then install the DevBot tool:
 npm install --save-dev dev-bot-tool
 ```
 
-To run your bot locally,
-
 To actually deploy your bot, you'll need an AWS account, and your AWS credentials in the environment. For most projects you'll want to create a .env file in the root of your repo (**remember to .gitignore it!**) and `source .env` before your commands, but to quickly test this you can just run:
 
 ```bash
