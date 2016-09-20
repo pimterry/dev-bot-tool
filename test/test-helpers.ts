@@ -16,7 +16,8 @@ export function createDevBot(entryPointCode: string): BundleSpec {
     let entryPoint = path.join(botFolder, "bot-entrypoint.js");
 
     fs.mkdirSync(path.join(botFolder, "node_modules"));
-    fs.symlinkSync(path.resolve("./node_modules/dev-bot"), path.join(botFolder, "node_modules", "dev-bot"), 'dir');
+    linkDep(botFolder, "dev-bot");
+
     fs.writeFileSync(entryPoint, entryPointCode);
 
     return {
@@ -24,6 +25,19 @@ export function createDevBot(entryPointCode: string): BundleSpec {
         entryPoint,
         env: {}
     };
+}
+
+function linkDep(botFolder: string, depName: string) {
+    let targetPath = path.join(botFolder, "node_modules", depName);
+    if (fs.existsSync(targetPath)) return;
+
+    fs.symlinkSync(path.resolve("node_modules", depName), targetPath, 'dir');
+
+    let depPackageJson = require(`${depName}/package.json`);
+
+    Object.keys(depPackageJson.dependencies).forEach((subDep) => {
+        linkDep(botFolder, subDep);
+    });
 }
 
 export async function extractToDisk(outputPath: string, zip: Zip): Promise<void> {
