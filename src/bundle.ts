@@ -13,7 +13,7 @@ export interface BundleSpec {
     env: { [id: string]: string };
 }
 
-async function includeFolder(folderPath: string, bundle: Zip, pathPrefix: string = ""): Promise<void> {
+async function includeFolder(folderPath: string, bundle: Zip, pathPrefix?: string): Promise<void> {
     var folderWalk = fs.walk(folderPath);
 
     let outstandingReads = [];
@@ -22,7 +22,7 @@ async function includeFolder(folderPath: string, bundle: Zip, pathPrefix: string
     folderWalk.on('data', walkFile);
 
     function walkFile(file) {
-        let relPath = path.join(pathPrefix, path.relative(folderPath, file.path));
+        let relPath = path.join(pathPrefix || "", path.relative(folderPath, file.path));
 
         if (file.stats.isFile()) {
             outstandingReads.push(
