@@ -28,10 +28,13 @@ export function createDevBot(entryPointCode: string): BundleSpec {
 }
 
 function linkDep(botFolder: string, depName: string) {
+    let sourcePath = path.resolve("node_modules", depName);
     let targetPath = path.join(botFolder, "node_modules", depName);
-    if (fs.existsSync(targetPath)) return;
 
-    fs.symlinkSync(path.resolve("node_modules", depName), targetPath, 'dir');
+    if (fs.existsSync(targetPath)) return;
+    if (!fs.existsSync(sourcePath)) return; // Skip missing deps - typically means we have them nested.
+
+    fs.symlinkSync(sourcePath, targetPath, 'dir');
 
     let depPackageJson = require(`${depName}/package.json`);
 
