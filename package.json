@@ -1,6 +1,6 @@
 {
   "name": "dev-bot-tool",
-  "version": "0.1.0",
+  "version": "0.2.0-rc1",
   "description": "Deployment tool for DevBot: a framework for chat-bot-based developer tooling",
   "bin": {
     "dev-bot": "./dist/src/cli/cli.js"
@@ -46,8 +46,8 @@
     "node": ">=4.0.0"
   },
   "dependencies": {
-    "dev-bot": "^0.2.0",
     "aws-sdk": "^2.6.0",
+    "dev-bot": "^0.2.0",
     "docopt": "^0.6.2",
     "dotenv": "^2.0.0",
     "es6-promisify": "^4.1.0",
