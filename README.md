@@ -1,4 +1,4 @@
-# DevBot Deploy [![Build Status](https://travis-ci.org/pimterry/dev-bot-tool.png)](https://travis-ci.org/pimterry/dev-bot-tool)
+# DevBot Tool [![Build Status](https://travis-ci.org/pimterry/dev-bot-tool.png)](https://travis-ci.org/pimterry/dev-bot-tool)
 
 **[DevBot](https://github.com/pimterry/dev-bot) is a framework to build chat-bot-based developer tooling.**
 
