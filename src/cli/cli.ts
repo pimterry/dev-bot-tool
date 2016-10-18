@@ -16,4 +16,5 @@ runCommand(args).then(() => {
     console.error("DevBot command failed!");
     console.error("----------------------");
     console.error(error);
+    process.exit(2);
 });
