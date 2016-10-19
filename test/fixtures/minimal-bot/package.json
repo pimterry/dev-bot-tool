@@ -1,0 +1,12 @@
+{
+  "name": "minimal-bot",
+  "version": "0.0.1",
+  "private": true,
+  "description": "",
+  "main": "start.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

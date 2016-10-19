@@ -12,7 +12,7 @@ export default class LambdaScheduler {
 
         let name = lambdaArn.split(":").slice(-1)[0];
 
-        let existingRules = (await events.listRuleNamesByTarget({ TargetArn: lambdaArn})).RuleNames;
+        let existingRules = (await events.listRuleNamesByTarget({ TargetArn: lambdaArn })).RuleNames;
         if (existingRules.length > 0) return;
 
         let rule = await events.putRule({

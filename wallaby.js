@@ -3,11 +3,13 @@ module.exports = (wallaby) => {
     files: [
       'package.json',
       'src/**/*.ts',
+      'test/fixtures/**/*',
       'test/*.ts'
     ],
 
     tests: [
-      'test/unit/**/*.ts'
+      'test/unit/**/*-test.ts',
+      'test/integration/**/*-test.ts',
     ],
 
     env: {
@@ -16,6 +18,12 @@ module.exports = (wallaby) => {
 
     testFramework: 'mocha',
 
-    debug: false
+    debug: false,
+
+    setup: function (wallaby) {
+      var path = require("path");
+
+      process.env.DEV_BOT_ROOT = path.resolve(wallaby.localProjectDir);
+    }
   };
 };
