@@ -1,4 +1,8 @@
 declare module "aws-sdk" {
+    import { AwsError } from "@types/aws-sdk";
+
+    export * from "@types/aws-sdk";
+
     export class IAM {
         constructor(options?: any);
 

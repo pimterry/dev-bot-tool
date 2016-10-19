@@ -1,6 +1,7 @@
 // TODO: Contribute this back to fs-extra on DT
 declare module "fs-extra" {
 	import { Stats } from "fs";
+	export * from "@types/fs-extra";
 
 	export function walk(path: string): WalkEventEmitter;
 

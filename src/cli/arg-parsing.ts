@@ -39,7 +39,7 @@ export function parseArgs(argv: string[]): CliArguments {
         exit: false
     });
 
-    let action = result["aws-deploy"] ? CliAction.AwsDeploy : 
+    let action = result["aws-deploy"] ? CliAction.AwsDeploy :
                  result["run-once"] ? CliAction.RunOnce :
                  null;
 

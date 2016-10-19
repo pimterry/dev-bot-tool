@@ -1,4 +1,4 @@
-import AwsSdk = require("aws-sdk");
+import * as AwsSdk from "aws-sdk";
 import promisify = require("es6-promisify");
 
 /*
