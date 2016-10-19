@@ -53,7 +53,7 @@
   "dependencies": {
     "@types/aws-lambda": "0.0.3",
     "@types/aws-sdk": "0.0.38",
-    "@types/docopt": "^0.6.22-alpha",
+    "@types/docopt": "0.6.22-alpha",
     "@types/dotenv": "^2.0.18",
     "@types/es6-promise": "0.0.32",
     "@types/fs-extra": "0.0.33",
