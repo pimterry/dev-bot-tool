@@ -45,15 +45,34 @@ export class LambdaMock {
         let request = this.server.get(this.url(`2015-03-31/functions/${name}`));
 
         return {
-            findFunction: () => request.thenReply(200,
+            findFunction: (arn: string) => request.thenReply(200,
                 JSON.stringify({
-                	"Code": {
-                		"Location": `https://awslambda-eu-west-1-tasks.s3-eu-west-1.amazonaws.com/snapshots/067577735836/${name}`,
-                		"RepositoryType": "S3"
-                	},
-                	"Configuration": this.functionConfiguration(name)
+                    "Code": {
+                        "Location": `https://awslambda-eu-west-1-tasks.s3-eu-west-1.amazonaws.com/snapshots/123123123123/${name}`,
+                        "RepositoryType": "S3"
+                    },
+                    "Configuration": this.functionConfiguration({
+                        "FunctionName": name,
+                        "FunctionArn": arn
+                    })
+                })
+            ),
+            dontFindFunction: () => request.thenReply(404,
+                JSON.stringify({
+                	"Message": "Function not found: arn:mock-arn",
+                	"Type": "User"
                 })
             )
+        };
+    }
+
+    onCreateFunction(name: string) {
+        // TODO: Validate arguments
+        let request = this.server.post(this.url(`2015-03-31/functions`));
+
+        return {
+            succeedWithArn: (arn: string) => request.thenReply(201,
+                JSON.stringify(this.functionConfiguration({"FunctionArn": arn})))
         };
     }
 
@@ -61,18 +80,29 @@ export class LambdaMock {
         let request = this.server.put(this.url(`2015-03-31/functions/${name}/code`));
 
         return {
-            succeed: () => request.thenReply(200, JSON.stringify(this.functionConfiguration(name)))
+            succeed: () => request.thenReply(200,
+                JSON.stringify(this.functionConfiguration({"FunctionName": name})))
         };
     }
 
-    private functionConfiguration(name: string) {
+    onAddPermission(lambdaArn: string, lambdaAction: string, principal: string) {
+        // TODO: Validate arguments
+        let encodedArn = encodeURIComponent(lambdaArn);
+        let request = this.server.post(this.url(`2015-03-31/functions/${encodedArn}/policy`));
+
         return {
+            succeed: () => request.thenReply(200)
+        }
+    }
+
+    private functionConfiguration(overrides: { [key: string]: any }) {
+        return Object.assign({
             "CodeSha256": "OPx5wn0xkdm1cWqf9WdllCZQNGKQ3o5LD/Xu1pJTQiY=",
             "CodeSize": 1554,
             "Description": "Mock function",
             "Environment": null,
-            "FunctionArn": `arn:aws:lambda:eu-west-1:123123123123:function:${name}`,
-            "FunctionName": name,
+            "FunctionArn": `arn:aws:lambda:eu-west-1:123123123123:function:mockfunction`,
+            "FunctionName": "mockfunction",
             "Handler": "mock-function.handler",
             "KMSKeyArn": null,
             "LastModified": "2016-10-19T12:07:11.145+0000",
@@ -83,7 +113,7 @@ export class LambdaMock {
             "Timeout": 3,
             "Version": "$LATEST",
             "VpcConfig": null
-        };
+        }, overrides);
     }
 }
 
@@ -92,13 +122,45 @@ export class CloudWatchEventsMock {
 
     constructor(private server: HttpServerMock) { }
 
-    onListRuleNamesByTarget() {
-        let request = this.server.post(this.EVENTS_URL);
+    onListRuleNamesByTarget(targetArn: string) {
+        // TODO: Validate arguments
+        let request = this.server.post(this.EVENTS_URL).withHeaders({
+            "X-Amz-Target": "AWSEvents.ListRuleNamesByTarget"
+        });
 
         return {
             findRuleNames: (names: string[]) => request.thenReply(200, JSON.stringify({
                 RuleNames: names
+            })),
+            findNoRuleNames: () => request.thenReply(200, JSON.stringify({
+                RuleNames: []
             }))
+        }
+    }
+
+    onPutRule(name: string, rule: { [key: string]: any }) {
+        // TODO: Validate arguments
+        let request = this.server.post(this.EVENTS_URL).withHeaders({
+            "X-Amz-Target": "AWSEvents.PutRule"
+        });
+
+        return {
+            succeedWithArn(arn: string) {
+                request.thenReply(200, JSON.stringify({
+                    "RuleArn": arn
+                }));
+            }
+        }
+    }
+
+    onPutTargets(ruleName: string, ...targets: { Arn: string }[]) {
+        // TODO: Validate arguments
+        let request = this.server.post(this.EVENTS_URL).withHeaders({
+            "X-Amz-Target": "AWSEvents.PutTargets"
+        });
+
+        return {
+            succeed: () => request.thenReply(200)
         }
     }
 }

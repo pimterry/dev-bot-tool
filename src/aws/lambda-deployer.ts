@@ -52,7 +52,7 @@ export default class LambdaDeployer {
                 FunctionName: name,
                 Handler: lambdaConfig.handler,
                 Publish: true,
-                Role: lambdaConfig.role, // TODO - create a new role if one isn't provided (!)
+                Role: lambdaConfig.role,
                 Runtime: "nodejs4.3",
                 Description: "DevBot: " + name,
                 Code: {
