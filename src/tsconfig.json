@@ -1,0 +1,20 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "module": "commonjs",
+        "declaration": true,
+        "outDir": "../dist/src"
+    },
+    "compileOnSave": true,
+    "buildOnSave": true,
+    "include": [
+        "../custom-typings/*.d.ts",
+        "../node_modules/@types/**/*.d.ts",
+        "**/*.ts"
+    ],
+    "filesGlob": [
+        "../custom-typings/*.d.ts",
+        "../node_modules/@types/**/*.d.ts",
+        "**/*.ts"
+    ]
+}
