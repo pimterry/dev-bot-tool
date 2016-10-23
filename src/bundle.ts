@@ -1,3 +1,6 @@
+/// <reference path="./injected-code/dev-bot-handler.ts" />
+// TODO: Find a more elegant way to make sure the above is included in dist/test/src
+
 import fs = require("fs-extra");
 import promisify = require("es6-promisify");
 import path = require("path");

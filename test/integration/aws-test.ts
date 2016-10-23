@@ -5,7 +5,7 @@ import spawn = require("cross-spawn-promise");
 import expect from "../expect";
 import * as awsMock from "../aws-mocks";
 
-const DEV_BOT_ROOT = (process.env.DEV_BOT_ROOT || path.resolve(__dirname, "..", "..", ".."));
+const DEV_BOT_ROOT = (process.env.DEV_BOT_ROOT || path.resolve(__dirname, "..", "..", "..", ".."));
 const CLI_SCRIPT_PATH = DEV_BOT_ROOT + "/dist/src/cli/cli.js";
 const server = new HttpServerMock();
 
