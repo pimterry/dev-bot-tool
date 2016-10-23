@@ -2,7 +2,7 @@ import sinon = require("sinon");
 import Zip = require("jszip");
 import AwsSdk = require("aws-sdk");
 
-import expect from "../../expect";
+import expect from "../../helpers/expect";
 
 import LambdaDeployer from "../../../src/aws/lambda-deployer";
 

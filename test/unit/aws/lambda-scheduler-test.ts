@@ -1,7 +1,7 @@
 import sinon = require("sinon");
 import AwsSdk = require("aws-sdk");
 
-import expect from "../../expect";
+import expect from "../../helpers/expect";
 
 import LambdaScheduler from "../../../src/aws/lambda-scheduler";
 

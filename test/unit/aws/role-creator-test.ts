@@ -1,7 +1,7 @@
 import sinon = require("sinon");
 import AwsSdk = require("aws-sdk");
 
-import expect from "../../expect";
+import expect from "../../helpers/expect";
 
 import RoleCreator from "../../../src/aws/role-creator";
 

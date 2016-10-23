@@ -1,4 +1,4 @@
-import expect from "../../expect";
+import expect from "../../helpers/expect";
 
 import { CliArguments, CliAction, parseArgs } from "../../../src/cli/arg-parsing";
 

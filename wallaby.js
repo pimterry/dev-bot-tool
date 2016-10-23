@@ -4,7 +4,8 @@ module.exports = (wallaby) => {
       'package.json',
       'src/**/*.ts',
       'test/fixtures/**/*',
-      'test/*.ts'
+      'test/*.ts',
+      'test/helpers/**/*.ts'
     ],
 
     tests: [

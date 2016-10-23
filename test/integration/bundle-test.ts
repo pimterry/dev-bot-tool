@@ -2,9 +2,10 @@ import path = require("path");
 import temp = require("temp");
 temp.track();
 
-import expect from "../expect";
+import expect from "../helpers/expect";
 
-import { sleep, createDevBot, extractToDisk } from "../test-helpers";
+import { sleep } from "../helpers/promise-helpers";
+import { createDevBot, extractToDisk } from "../helpers/bot-builder-helpers";
 
 import { LambdaHandler } from "../../src/aws/lambda-deployer";
 import { buildBundle, BundleSpec } from "../../src/bundle";
