@@ -43,16 +43,16 @@ describe("Dev-Bot tool AWS deploy", function () {
     let lambda: awsMock.LambdaMock;
     let events: awsMock.CloudWatchEventsMock;
 
-    beforeEach(() => {
-        server.start();
+    beforeEach(async () => {
+        await server.start();
 
         iam = new awsMock.IamMock(server);
         lambda = new awsMock.LambdaMock(server);
         events = new awsMock.CloudWatchEventsMock(server);
     });
 
-    afterEach(() => {
-        server.stop();
+    afterEach(async () => {
+        await server.stop();
     });
 
     it("pushes a new bot to lambda, if the bot doesn't exist", async () => {
