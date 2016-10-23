@@ -2,10 +2,10 @@ import HttpServerMock = require("http-server-mock");
 
 import expect from "../helpers/expect";
 import * as awsMock from "../helpers/aws-mocks";
-import toolWithServer from "../helpers/tool-runner-helper";
+import runWithEnv from "../helpers/tool-runner-helpers";
 
 const server = new HttpServerMock();
-const run = toolWithServer(server);
+const run = (...args: string[]) => runWithEnv(server.proxyEnv, ...args);
 
 describe("Dev-Bot tool AWS deploy", function () {
     this.timeout(5000);
@@ -56,6 +56,4 @@ describe("Dev-Bot tool AWS deploy", function () {
         expect(output).to.include("Deploying testbot to AWS");
         expect(output).to.match(/\nDone.\n$/);
     });
-
-    // TODO: Test help & version (since we can't unit test them)
 });
