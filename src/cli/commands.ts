@@ -14,8 +14,6 @@ export async function runOnce(entryPoint: string,
 
     var bot = require(path.resolve(process.cwd(), entryPoint));
     await devBot.runBot(bot);
-
-    console.log("Bot all done");
 }
 
 export async function deploy(rootDirectory: string, // Absolute path to project
