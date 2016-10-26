@@ -46,7 +46,7 @@ describe("Lambda deployer", () => {
             lambda.createFunction.yields(null, { FunctionArn: "new:lambda:arn" });
 
             bundle.generateAsync.returns(
-                Promise.resolve(Buffer.from(bundleData, "utf8"))
+                Promise.resolve(new Buffer(bundleData, "utf8"))
             );
         });
 
@@ -73,7 +73,7 @@ describe("Lambda deployer", () => {
             expect(lambda.createFunction).to.have.been.calledOnce;
             expect(lambda.createFunction).to.have.been.calledWithMatch({
                 Code: {
-                    ZipFile: Buffer.from(bundleData)
+                    ZipFile: new Buffer(bundleData)
                 }
             });
         });

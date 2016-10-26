@@ -19,6 +19,15 @@ describe("DevBot bundling", function () {
         expect(handler).not.to.equal(null);
     });
 
+    it("automatically finds the entry point and project root", async () => {
+        let testBot = createDevBot("exports.isTestBot = true");
+
+        let bundle = await buildBundle(testBot);
+
+        let handler = await buildHandler(bundle);
+        expect(handler).not.to.equal(null);
+    });
+
     afterEach(function () {
         if (this.currentTest.state === 'failed') {
             temp.track(false);

@@ -39,7 +39,7 @@ describe("Dev-Bot tool AWS deploy", function () {
         lambda.onAddPermission("arn:new-bot", "lambda:InvokeFunction", "events.amazonaws.com").succeed();
         events.onPutTargets("dev-bot-trigger-testbot", {Arn: "arn:new-bot"}).succeed();
 
-        let output = await run("aws-deploy", "testbot", "qwe.js");
+        let output = await run("aws-deploy", "testbot");
 
         expect(output).to.include("Deploying testbot to AWS");
         expect(output).to.match(/\nDone.\n$/);
@@ -51,7 +51,7 @@ describe("Dev-Bot tool AWS deploy", function () {
         lambda.onUpdateFunctionCode("testbot").succeed();
         events.onListRuleNamesByTarget("arn:updated-bot").findRuleNames(["dev-bot-trigger"]);
 
-        let output = await run("aws-deploy", "testbot", "qwe.js");
+        let output = await run("aws-deploy", "testbot");
 
         expect(output).to.include("Deploying testbot to AWS");
         expect(output).to.match(/\nDone.\n$/);

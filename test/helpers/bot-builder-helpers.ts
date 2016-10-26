@@ -14,12 +14,20 @@ let outputFile = promisify<void, string, Buffer>(fs.outputFile);
 
 export function createDevBot(entryPointCode: string): BundleSpec {
     let botFolder = temp.mkdirSync("dev-bot-code");
+
     let entryPoint = path.join(botFolder, "bot-entrypoint.js");
+    fs.writeFileSync(entryPoint, entryPointCode);
+
+    fs.writeFileSync(path.join(botFolder, "package.json"), JSON.stringify({
+        "name": "test-bot",
+        "main": "bot-entrypoint.js",
+        "dependencies": {
+            "dev-bot": "^0.2.0"
+        }
+    }));
 
     fs.mkdirSync(path.join(botFolder, "node_modules"));
     linkDep(botFolder, "dev-bot");
-
-    fs.writeFileSync(entryPoint, entryPointCode);
 
     return {
         rootDirectory: botFolder,

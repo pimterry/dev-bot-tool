@@ -3,10 +3,10 @@ import docopt = require("docopt");
 export interface CliArguments {
     action: CliAction;
     name: string;
-    entrypoint: string;
-
     region: string;
-    root: string;
+
+    entryPoint?: string;
+    root?: string;
     env?: string;
     role?: string;
 }
@@ -18,18 +18,19 @@ export enum CliAction {
 
 const doc = `
 Usage:
-    dev-bot run-once <entrypoint> [--env=deploy.env]
-    dev-bot aws-deploy <name> <entrypoint> [--region=<region>] [--root=<root_directory>]
+    dev-bot run-once [--entrypoint=<entry-point.js>] [--env=deploy.env]
+    dev-bot aws-deploy <name> [--entrypoint=<entry_point>] [--region=<region>] [--root=<root_directory>]
                                            [--role=<role_name>] [--env=deploy.env]
     dev-bot -h | --help
 
 Options:
-    -h, --help                Print this help message
+    -h, --help                 Print this help message
 
-    --region <region>         The AWS region to use [default: eu-west-1]
-    --root <root_directory>   The bot's root directory [default: ./]
-    --role <role_name>        The AWS role to use [default: create one automatically]
-    --env <env-vars-file>     A dotenv file, containing environmental variables to include at runtime
+    --region <region>          The AWS region to use [default: eu-west-1]
+    --root <root_directory>    The bot's root directory [default: ./]
+    --entrypoint <entry_point> The bot's entry point [default: 'main' in the first package.json above the root]
+    --role <role_name>         The AWS role to use [default: create one automatically]
+    --env <env-vars-file>      A dotenv file, containing environmental variables to include at runtime
 `;
 
 export function parseArgs(argv: string[]): CliArguments {
@@ -46,10 +47,10 @@ export function parseArgs(argv: string[]): CliArguments {
     return {
         action: action,
         name: result["<name>"],
-        entrypoint: result["<entrypoint>"],
 
-        root: result["--root"] || "./",
         region: result["--region"] || "eu-west-1",
+        entryPoint: result["--entrypoint"] || null,
+        root: result["--root"] || null,
         env: result["--env"] || null,
         role: result["--role"] || null
     };

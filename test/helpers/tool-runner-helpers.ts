@@ -9,7 +9,7 @@ const CLI_SCRIPT_PATH = DEV_BOT_ROOT + "/dist/src/cli/cli.js";
 // Runs the tool with given arguments, promisified
 export default async function runWithEnv(envAdditions: {}, ...args: string[]): Promise<string> {
     try {
-        let botDirectory = path.resolve(__dirname, "..", "fixtures", "minimal-bot");
+        let botDirectory = path.resolve(DEV_BOT_ROOT, "test", "fixtures", "minimal-bot");
         let stdout = await spawn(
             process.execPath,
             [CLI_SCRIPT_PATH].concat(args),
