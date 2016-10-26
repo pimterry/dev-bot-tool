@@ -6,7 +6,9 @@
     "dev-bot": "./dist/src/cli/cli.js"
   },
   "scripts": {
-    "build": "rimraf dist/* && tsc -p src && tsc -p test",
+    "build": "npm run build-src && npm run build-test",
+    "build-src": "rimraf dist/src && tsc -p src",
+    "build-test": "rimraf dist/test && tsc -p test && cp -r test/fixtures dist/test/fixtures",
     "test": "npm run build && mocha 'dist/test/**/*-test.js'",
     "prepublish": "npm run build"
   },
