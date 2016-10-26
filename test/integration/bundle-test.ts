@@ -3,37 +3,25 @@ import temp = require("temp");
 temp.track();
 
 import expect from "../helpers/expect";
+import { createDevBot, extractToDisk, buildHandler } from "../helpers/bot-builder-helpers";
 
-import { sleep } from "../helpers/promise-helpers";
-import { createDevBot, extractToDisk } from "../helpers/bot-builder-helpers";
-
-import { LambdaHandler } from "../../src/aws/lambda-deployer";
 import { buildBundle, BundleSpec } from "../../src/bundle";
 
-export async function buildHandler(bundleSpec: BundleSpec): Promise<LambdaHandler> {
-    let bundle = await buildBundle(bundleSpec);
-
-    let unbundleFolder = temp.mkdirSync("dev-bot-bundle");
-    await extractToDisk(unbundleFolder, bundle);
-
-    let handlerPath = path.join(unbundleFolder, "dev-bot-handler.js");
-
-    await sleep(500);
-    return require(handlerPath);
-}
-
-it("can build a deployable zip", async function () {
+describe("DevBot bundling", function () {
     this.timeout(5000);
 
-    let testBot = createDevBot("exports.isTestBot = true");
+    it("can build a deployable zip", async () => {
+        let testBot = createDevBot("exports.isTestBot = true");
 
-    let handler = await buildHandler(testBot);
+        let bundle = await buildBundle(testBot);
 
-    expect(handler).not.to.equal(null);
-});
+        let handler = await buildHandler(bundle);
+        expect(handler).not.to.equal(null);
+    });
 
-afterEach(function () {
-    if (this.currentTest.state === 'failed') {
-        temp.track(false);
-    }
+    afterEach(function () {
+        if (this.currentTest.state === 'failed') {
+            temp.track(false);
+        }
+    });
 });

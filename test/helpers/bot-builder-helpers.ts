@@ -5,7 +5,10 @@ import Zip = require("jszip");
 import temp = require("temp");
 temp.track();
 
+import { LambdaHandler } from "../../src/aws/lambda-deployer";
 import { BundleSpec } from "../../src/bundle";
+
+import { sleep } from "./promise-helpers";
 
 let outputFile = promisify<void, string, Buffer>(fs.outputFile);
 
@@ -57,4 +60,14 @@ export async function extractToDisk(outputPath: string, zip: Zip): Promise<void>
     });
 
     await Promise.all(fileWrites);
+}
+
+export async function buildHandler(bundle: Zip): Promise<LambdaHandler> {
+    let unbundleFolder = temp.mkdirSync("dev-bot-bundle");
+    await extractToDisk(unbundleFolder, bundle);
+
+    let handlerPath = path.join(unbundleFolder, "dev-bot-handler.js");
+
+    await sleep(500);
+    return require(handlerPath);
 }
