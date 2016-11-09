@@ -4,17 +4,17 @@
 
 This is a command line tool to manage your DevBots, so you can run them locally, host them for free (typically) on AWS Lambda, and generally get things done.
 
-Take a look at [DevBot](https://github.com/pimterry/dev-bot) for more info on how to build bots themselves. For the rest of this readme, I'm going to assume you're totally on that, you've got at least the start of a bot ready and waiting.
+Take a look at [DevBot](https://github.com/pimterry/dev-bot) for more info on how to build bots themselves. For the rest of this readme, I'm going to assume you're totally on that, and you've got at least the start of a bot ready and waiting.
 
 ## Getting Started
 
-First up, get a bot ready, and then install the DevBot tool:
+With your bot ready, install the DevBot tool:
 
 ```javascript
 npm install --save-dev dev-bot-tool
 ```
 
-Note that with the above, you don't automatically have `dev-bot` in your path. You can install it globally to do that, but typically instead I install it locally in my bots, and run the commands below from NPM scripts (which automatically include `./node_modules/bin`, where the DevBot CLI tool lives, in their path) with the relevant arguments pre-prepared.
+Note that this doesn't automatically put `dev-bot` in your PATH. You can install it globally to do that, but typically instead I install it locally in my bots, and run the commands below from NPM scripts (which automatically include `./node_modules/bin`, where a locally installed DevBot CLI tool lives, in their PATH) with the relevant arguments pre-prepared.
 
 Check out JokeBot's [package.json](https://github.com/jokebot/jokebot/blob/master/package.json) for an example of this all put together.
 
@@ -23,7 +23,7 @@ Check out JokeBot's [package.json](https://github.com/jokebot/jokebot/blob/maste
 To quickly run your bot locally, simply run:
 
 ```bash
-dev-bot run-once my-bot.js
+dev-bot run-once
 ```
 
 This starts up the bot on your machine. Typically you'll want it to connect to Github, which means it'll need to make a call to `devBot.connectGithub`, and use some credentials. Rather than hardcoding these, I'd strongly recommend pulling them from process.env, and either including GITHUB_TOKEN in your environment directly, or specifying `--env env-file.env` on the command line, with `env-file.env` is in dotenv format (KEY=VALUE, newline separated).
