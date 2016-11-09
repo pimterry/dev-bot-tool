@@ -16,7 +16,8 @@ describe("Lambda deployer", () => {
     beforeEach(() => {
         lambda = {
             getFunction: sinon.stub().yields(null, {}),
-            createFunction: sinon.stub().yields(null, {})
+            createFunction: sinon.stub().yields(null, {}),
+            updateFunctionCode: sinon.stub().yields(null, {})
         };
         awsStub = { Lambda: sinon.stub().returns(lambda) };
         bundle = { generateAsync: sinon.stub() };
@@ -25,7 +26,7 @@ describe("Lambda deployer", () => {
     });
 
     it("authenticates with the given credentials", async () => {
-        deployer.deployLambdaBundle(bundle, <any> { }, {
+        await deployer.deployLambdaBundle(bundle, <any> { }, {
             accessKeyId: "test-access-key",
             secretAccessKey: "test-secret-access-key"
         });
