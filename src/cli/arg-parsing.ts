@@ -18,7 +18,7 @@ export enum CliAction {
 
 const doc = `
 Usage:
-    dev-bot run-once [--entrypoint=<entry-point.js>] [--env=deploy.env]
+    dev-bot run-once [--env=deploy.env] [--root=<root_directory>] [--entrypoint=<entry-point.js>]
     dev-bot aws-deploy <name> [--entrypoint=<entry_point>] [--region=<region>] [--root=<root_directory>]
                                            [--role=<role_name>] [--env=deploy.env]
     dev-bot -h | --help

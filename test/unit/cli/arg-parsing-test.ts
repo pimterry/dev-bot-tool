@@ -95,6 +95,10 @@ describe("Arg parsing", () => {
                 expect(result.entryPoint).to.equal(null);
             });
 
+            it("has the root defaulting to null", () => {
+                expect(result.root).to.equal(null);
+            });
+
             it("has the env defaulting to null", () => {
                 expect(result.env).to.equal(null);
             });
@@ -105,6 +109,7 @@ describe("Arg parsing", () => {
             beforeEach(() => result = parseArgs(args([
                 "run-once",
                 "--entrypoint", "bot.js",
+                "--root", "/root-dir",
                 "--env", "deploy.env"
             ])));
 
@@ -114,6 +119,10 @@ describe("Arg parsing", () => {
 
             it("sets the entry point", () => {
                 expect(result.entryPoint).to.equal("bot.js");
+            });
+
+            it("sets the root", () => {
+                expect(result.root).to.equal("/root-dir");
             });
 
             it("gets the env file", () => {
