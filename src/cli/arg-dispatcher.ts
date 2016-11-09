@@ -5,7 +5,7 @@ import promisify = require("es6-promisify");
 const readFile = promisify<string, string, string>(fs.readFile);
 
 import { CliArguments, CliAction } from "./arg-parsing";
-import { findEntryPoint } from "../bot-discovery";
+import { findRoot, normalizeAndVerifyRoot, findEntryPoint } from "../bot-discovery";
 import { AwsCredentials } from "../aws/aws";
 
 import { deploy, runOnce } from "./commands";
@@ -16,7 +16,7 @@ export async function runCommand(args: CliArguments): Promise<void> {
         secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
     }
 
-    let root = args.root || process.cwd();
+    let root = (args.root && await normalizeAndVerifyRoot(args.root)) || await findRoot(process.cwd());
     let entryPoint = args.entryPoint || await findEntryPoint(root);
 
     if (args.action === CliAction.AwsDeploy) {

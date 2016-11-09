@@ -27,8 +27,8 @@ Options:
     -h, --help                 Print this help message
 
     --region <region>          The AWS region to use [default: eu-west-1]
-    --root <root_directory>    The bot's root directory [default: ./]
-    --entrypoint <entry_point> The bot's entry point [default: 'main' in the first package.json above the root]
+    --root <root_directory>    The bot's root directory [default: first parent directory containing a package.json]
+    --entrypoint <entry_point> The bot's entry point [default: 'main' from your package.json]
     --role <role_name>         The AWS role to use [default: create one automatically]
     --env <env-vars-file>      A dotenv file, containing environmental variables to include at runtime
 `;

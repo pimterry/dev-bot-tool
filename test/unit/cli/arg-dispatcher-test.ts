@@ -19,15 +19,19 @@ function deployArgs(overrides = {}): CliArguments {
 describe("Arg dispatcher", () => {
     let deploy: sinon.SinonStub;
     let findEntryPoint: sinon.SinonStub;
+    let findRoot: sinon.SinonStub;
+    let normalizeAndVerifyRoot: sinon.SinonStub;
     let cwd: sinon.SinonStub;
 
     beforeEach(() => {
         deploy = sinon.stub();
         findEntryPoint = sinon.stub();
+        findRoot = sinon.stub();
+        normalizeAndVerifyRoot = sinon.stub().returnsArg(0);
         cwd = sinon.stub();
 
         ArgDispatcherModule.__set__('commands_1', { deploy });
-        ArgDispatcherModule.__set__('bot_discovery_1', { findEntryPoint });
+        ArgDispatcherModule.__set__('bot_discovery_1', { findEntryPoint, findRoot, normalizeAndVerifyRoot });
         ArgDispatcherModule.__set__('process', { cwd, env: {} });
     });
 
@@ -45,12 +49,13 @@ describe("Arg dispatcher", () => {
         expect(deploy).to.have.been.calledWith("/provided-root", "found-entrypoint.js");
     });
 
-    it("uses the current directory as the root, if no root is provided, and finds the entry point from there", async () => {
+    it("automatically finds the root, if one isn't provided, and finds the entry point from there", async () => {
         cwd.returns("/current/working/directory");
-        findEntryPoint.withArgs("/current/working/directory").returns("entrypoint.js");
+        findRoot.withArgs("/current/working/directory").returns("/current");
+        findEntryPoint.withArgs("/current").returns("entrypoint.js");
 
         await runCommand(deployArgs());
 
-        expect(deploy).to.have.been.calledWith("/current/working/directory", "entrypoint.js");
+        expect(deploy).to.have.been.calledWith("/current", "entrypoint.js");
     });
 });
