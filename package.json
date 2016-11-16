@@ -1,6 +1,6 @@
 {
   "name": "dev-bot-tool",
-  "version": "0.2.0-rc2",
+  "version": "0.2.0",
   "description": "Deployment tool for DevBot: a framework for chat-bot-based developer tooling",
   "bin": {
     "dev-bot": "./dist/src/cli/cli.js"
