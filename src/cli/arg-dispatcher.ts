@@ -32,10 +32,10 @@ export async function runCommand(args: CliArguments): Promise<void> {
             await buildEnv(args.env)
         );
     } else if (args.action === CliAction.RunOnce) {
-        console.log(`Running ${args.entryPoint}`);
+        console.log(`Running ${entryPoint}`);
 
         return runOnce(
-            args.entryPoint,
+            entryPoint,
             await buildEnv(args.env)
         );
     } else {
